@@ -275,6 +275,23 @@
       transform: translateY(0);
     }
 
+    /* ── Mobile responsive ── */
+    @media (max-width: 900px) {
+      .project-spread { grid-template-columns: 1fr; }
+      .spread-left {
+        padding: 56px 28px 64px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,248,233,0.06);
+      }
+      .spread-right { order: -1; }
+    }
+
+    @media (max-width: 600px) {
+      .project-spread { grid-template-columns: 1fr; }
+      .spread-left { padding: 48px 20px 56px; }
+      .spread-title { font-size: clamp(36px, 10vw, 72px); }
+    }
+
   </style>
 </head>
 <body>

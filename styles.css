@@ -420,6 +420,90 @@ img { display: block; max-width: 100%; }
   transform: translateY(0);
 }
 
+/* ─── RESPONSIVE — TABLET (≤900px) ─── */
+@media (max-width: 900px) {
+  .nav { padding: 0 28px; }
+  .nav-links { gap: 24px; }
+
+  .section { padding: 72px 28px; }
+
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .toc-tags { display: none; }
+
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .poster-feature-layout {
+    grid-template-columns: 1fr;
+  }
+  .poster-grid-right {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cat-hero { padding: 96px 28px 56px; }
+  .cat-hero-title { font-size: clamp(44px, 9vw, 120px); }
+
+  .poster-section { padding: 56px 28px; }
+}
+
+/* ─── RESPONSIVE — MOBILE (≤600px) ─── */
+@media (max-width: 600px) {
+
+  /* NAV */
+  .nav {
+    padding: 0 20px;
+    height: 56px;
+  }
+  .nav-logo { height: 28px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 8px; letter-spacing: 0.16em; }
+
+  /* SECTION */
+  .section { padding: 56px 20px; }
+  .section-label { margin-bottom: 36px; }
+
+  /* FOOTER */
+  .footer {
+    padding: 32px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  /* TOC */
+  .toc-row { padding: 18px 0; gap: 12px; }
+  .toc-num { width: 36px; font-size: 8px; }
+  .toc-name { font-size: clamp(18px, 6.5vw, 36px); }
+  .toc-tags { display: none; }
+  .toc-arrow { font-size: 16px; }
+
+  /* ABOUT GRID */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  /* PROJECT GRIDS */
+  .projects-grid { grid-template-columns: 1fr; }
+
+  /* POSTER GRIDS */
+  .poster-feature-layout { grid-template-columns: 1fr; }
+  .poster-grid-right { grid-template-columns: 1fr; }
+  .poster-section { padding: 48px 20px; }
+  .poster-section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .poster-section-desc { text-align: left; max-width: 100%; }
+
+  /* CATEGORY HERO */
+  .cat-hero { padding: 80px 20px 48px; min-height: auto; }
+  .cat-hero-title { font-size: clamp(36px, 12vw, 80px); line-height: 0.9; }
+  .cat-hero-foot { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .cat-hero-sep { display: none; }
+  .back-link { margin-bottom: 32px; }
+}
+
 /* ─── CATEGORY PAGE HEADER ─── */
 .cat-hero {
   min-height: 60vh;

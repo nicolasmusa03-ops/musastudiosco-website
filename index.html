@@ -18,6 +18,21 @@
       position: relative;
     }
 
+    @media (max-width: 900px) {
+      .hero { padding: 96px 28px 56px; }
+      .hero-primary-logo { width: calc(100vw - 56px); }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 80px 20px 48px; }
+      .hero-top { flex-direction: column; gap: 12px; }
+      .hero-meta { text-align: left; }
+      .hero-primary-logo { width: calc(100vw - 40px); }
+      .hero-portfolio-sub { font-size: clamp(16px, 5vw, 28px); }
+      .hero-foot { gap: 16px; padding-top: 24px; flex-direction: column; align-items: flex-start; }
+      .hero-sep { display: none; }
+    }
+
     .hero-top {
       display: flex;
       justify-content: space-between;

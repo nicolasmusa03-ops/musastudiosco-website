@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traditional Art — Musa Studios Co</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html">
+      <img src="../brand_assets/web_icon_w.png" alt="Musa Studios Co" class="nav-logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="cat-hero" style="position:relative; overflow:hidden;">
+    <canvas id="dotWave" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <div style="position:relative; z-index:3;">
+      <a href="../index.html" class="back-link">← Portfolio</a>
+      <div class="cat-hero-label">[ Work — 07 ]</div>
+      <h1 class="cat-hero-title">Traditional<br>Art</h1>
+    </div>
+    <div class="cat-hero-foot" style="position:relative; z-index:3;">
+      <span class="cat-hero-byline">Nicolas Musa · 2024–2026</span>
+      <div class="cat-hero-sep"></div>
+      <span class="cat-hero-count">4 Projects</span>
+    </div>
+  </div>
+  <script>
+  (function() {
+    const canvas = document.getElementById('dotWave');
+    const VS = `#version 300 es\nprecision mediump float;\nlayout(location = 0) in vec4 a_position;\nvoid main() { gl_Position = a_position; }`;
+    const FS = `#version 300 es
+precision mediump float;
+uniform float u_time;
+uniform vec2  u_resolution;
+uniform vec4  u_colorFront;
+uniform float u_pxSize;
+out vec4 fragColor;
+const int bayer8x8[64] = int[64](
+   0, 32,  8, 40,  2, 34, 10, 42,
+  48, 16, 56, 24, 50, 18, 58, 26,
+  12, 44,  4, 36, 14, 46,  6, 38,
+  60, 28, 52, 20, 62, 30, 54, 22,
+   3, 35, 11, 43,  1, 33,  9, 41,
+  51, 19, 59, 27, 49, 17, 57, 25,
+  15, 47,  7, 39, 13, 45,  5, 37,
+  63, 31, 55, 23, 61, 29, 53, 21
+);
+float bayer(vec2 uv) {
+  ivec2 pos = ivec2(mod(uv, 8.0));
+  return float(bayer8x8[pos.y * 8 + pos.x]) / 64.0;
+}
+void main() {
+  float t   = 0.5 * u_time;
+  float px  = u_pxSize;
+  vec2  pxUv = floor(gl_FragCoord.xy / px) * px;
+  vec2  nuv  = (pxUv / u_resolution) - 0.5;
+  vec2  suv  = nuv * 4.0;
+  float wave = cos(0.5 * suv.y - 2.0 * t) * sin(1.5 * suv.y + t) * (0.75 + 0.25 * cos(3.0 * t));
+  float shape = smoothstep(-1.0, 1.0, suv.x + wave);
+  shape *= smoothstep(-0.5, 0.15, nuv.x);
+  float threshold = bayer(gl_FragCoord.xy / px);
+  float res = step(0.5, shape + (threshold - 0.5));
+  vec3  fg  = u_colorFront.rgb;
+  float opa = u_colorFront.a * res;
+  fragColor = vec4(fg * opa, opa);
+}`;
+    function hexToRgba(h){const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);return r?[parseInt(r[1],16)/255,parseInt(r[2],16)/255,parseInt(r[3],16)/255,1]:[0,0,0,1];}
+    function mkShader(gl,t,s){const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);return sh;}
+    function mkProg(gl,vs,fs){const p=gl.createProgram();gl.attachShader(p,mkShader(gl,gl.VERTEX_SHADER,vs));gl.attachShader(p,mkShader(gl,gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);return p;}
+    const gl = canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:true});
+    if(!gl) return;
+    gl.clearColor(0,0,0,0);
+    const prog = mkProg(gl,VS,FS);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+    const posLoc = gl.getAttribLocation(prog,'a_position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc,2,gl.FLOAT,false,0,0);
+    const uTime=gl.getUniformLocation(prog,'u_time'),uRes=gl.getUniformLocation(prog,'u_resolution'),uFront=gl.getUniformLocation(prog,'u_colorFront'),uPx=gl.getUniformLocation(prog,'u_pxSize');
+    const FG=hexToRgba('#AF0000'),PX=3.5,SPD=0.55,t0=performance.now();
+    function resize(){const W=canvas.offsetWidth*devicePixelRatio|0,H=canvas.offsetHeight*devicePixelRatio|0;if(canvas.width!==W||canvas.height!==H){canvas.width=W;canvas.height=H;gl.viewport(0,0,W,H);}}
+    function render(){resize();const t=(performance.now()-t0)*0.001*SPD,W=canvas.width,H=canvas.height;gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(prog);gl.uniform1f(uTime,t);gl.uniform2f(uRes,W,H);gl.uniform4fv(uFront,FG);gl.uniform1f(uPx,PX*devicePixelRatio);gl.drawArrays(gl.TRIANGLES,0,6);requestAnimationFrame(render);}
+    render();
+  })();
+  </script>
+
+  <div class="section" style="padding-top: 64px;">
+    <div class="projects-grid">
+
+      <div class="project-card fade-up fade-up-1">
+        <div class="project-img-wrap">
+          <img src="https://placehold.co/800x600/FFF8E9/0A0606?text=FIGURE+DRAWING" alt="Figure Drawing" class="project-img">
+        </div>
+        <div class="project-meta">
+          <div>
+            <div class="project-title">Figure Drawing Series</div>
+            <div class="project-card-tag">Drawing</div>
+          </div>
+          <span class="project-year">2024</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-up fade-up-2">
+        <div class="project-img-wrap">
+          <img src="https://placehold.co/800x600/0A0606/FFF8E9?text=URBAN+SKETCHING" alt="Urban Sketching" class="project-img">
+        </div>
+        <div class="project-meta">
+          <div>
+            <div class="project-title">Urban Sketching — Miami</div>
+            <div class="project-card-tag">Sketch</div>
+          </div>
+          <span class="project-year">2025</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-up fade-up-2">
+        <div class="project-img-wrap">
+          <img src="https://placehold.co/800x600/AF0000/FFF8E9?text=PORTRAIT+STUDY" alt="Portrait Study" class="project-img">
+        </div>
+        <div class="project-meta">
+          <div>
+            <div class="project-title">Portrait Study — Charcoal</div>
+            <div class="project-card-tag">Charcoal</div>
+          </div>
+          <span class="project-year">2024</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-up fade-up-3">
+        <div class="project-img-wrap">
+          <img src="https://placehold.co/800x600/D8510E/FFF8E9?text=MIXED+MEDIA" alt="Mixed Media" class="project-img">
+        </div>
+        <div class="project-meta">
+          <div>
+            <div class="project-title">Mixed Media Collage</div>
+            <div class="project-card-tag">Collage</div>
+          </div>
+          <span class="project-year">2024</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <img src="../brand_assets/web_icon_w.png" alt="Musa Studios Co" class="footer-logo">
+    <div class="footer-copy">© 2026 Musa Studios Co · All Rights Reserved</div>
+  </footer>
+
+</body>
+</html>

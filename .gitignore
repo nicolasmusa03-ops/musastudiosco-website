@@ -18,3 +18,4 @@ screenshot.mjs
 # Reference/inspiration images — not needed in production
 website inspiration/
 _intake/
+_push_payload.json

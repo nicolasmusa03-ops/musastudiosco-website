@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musa Studios Co — Portfolio 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      padding: 128px 48px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,248,233,0.1);
+      position: relative;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .hero-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      border: 1px solid rgba(175,0,0,0.6);
+      padding: 7px 16px;
+      display: inline-block;
+    }
+
+    .hero-meta {
+      text-align: right;
+    }
+
+    .hero-meta span {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.65;
+      line-height: 2.1;
+    }
+
+    /* ─── PRIMARY LOGO IN HERO ─── */
+    .hero-logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .hero-primary-logo {
+      width: calc(100vw - 96px);
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hero-portfolio-sub {
+      font-size: clamp(22px, 2.8vw, 40px);
+      font-weight: 700;
+      text-transform: lowercase;
+      letter-spacing: -0.1em;
+      color: var(--cream);
+    }
+
+    .hero-foot {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,248,233,0.1);
+      flex-wrap: wrap;
+    }
+
+    .hero-role {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+    }
+
+    .hero-sep {
+      width: 48px;
+      height: 1px;
+      background: rgba(255,248,233,0.3);
+      flex-shrink: 0;
+    }
+
+    .hero-tagline {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--crimson);
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+
+    .col-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,248,233,0.1);
+      margin-bottom: 20px;
+    }
+
+    .col-body {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--cream);
+    }
+
+    .col-body a:hover { color: var(--crimson); }
+
+    /* ─── WORK HEADER ─── */
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+    }
+
+    .work-count {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    /* ─── MARQUEE BAND ─── */
+    .marquee-band {
+      background: var(--crimson);
+      overflow: hidden;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,248,233,0.06);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee-scroll 28s linear infinite;
+    }
+
+    .marquee-item {
+      font-size: clamp(22px, 3.2vw, 44px);
+      font-weight: 700;
+      font-style: oblique;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      color: var(--cream);
+      white-space: nowrap;
+      padding-right: 80px;
+      flex-shrink: 0;
+    }
+
+    .marquee-sep {
+      font-size: clamp(22px, 3.2vw, 44px);
+      font-weight: 700;
+      color: rgba(255,248,233,0.4);
+      padding-right: 80px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html">
+      <img src="brand_assets/web_icon_w.png" alt="Musa Studios Co" class="nav-logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-top fade-up fade-up-1">
+      <span class="hero-badge">Portfolio 2026</span>
+      <div class="hero-meta">
+        <span>Nicolas Musa</span>
+        <span>Miami, FL</span>
+        <span>Graphic Designer &amp; Artist</span>
+      </div>
+    </div>
+
+    <div class="hero-logo-wrap fade-up fade-up-2">
+      <img src="brand_assets/primary_w.png" alt="musa studios co" class="hero-primary-logo">
+      <div class="hero-portfolio-sub">portfolio</div>
+    </div>
+
+    <div class="hero-foot fade-up fade-up-3">
+      <span class="hero-role">Graphic Designer &amp; Artist</span>
+      <div class="hero-sep"></div>
+      <span class="hero-tagline">Executing with precision. Delivering on your visions.</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="section-label">[ About ]</div>
+    <div class="about-grid">
+      <div>
+        <div class="col-label">About Me</div>
+        <p class="col-body">
+          Nicolas Musa is a graphic designer &amp; artist based in Miami, FL.
+          Currently studying at UC Berkeley, he creates work across brand identity,
+          digital design, photo compositing, and the visual arts — executing
+          with precision and delivering on every vision.
+        </p>
+      </div>
+      <div>
+        <div class="col-label">Education</div>
+        <div class="col-body">
+          UC Berkeley<br>
+          Graphic Design &amp; Art
+        </div>
+      </div>
+      <div>
+        <div class="col-label">Design Skills</div>
+        <div class="col-body">
+          Graphic Design<br>
+          Digital Design<br>
+          Photo &amp; Retouching<br>
+          Brand Identity<br>
+          Print Design<br>
+          Traditional Art<br>
+          Digital Art
+        </div>
+      </div>
+      <div id="contact">
+        <div class="col-label">Contact</div>
+        <div class="col-body">
+          <a href="mailto:nicolas.musa03@gmail.com">nicolas.musa03@gmail.com</a><br><br>
+          IG <a href="#">@nicolasdmusa</a><br>
+          IG <a href="#">@musastudiosco</a><br><br>
+          TK <a href="#">@musastudiosco</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE BAND -->
+  <div class="marquee-band">
+    <div class="marquee-track">
+      <!-- 8 copies — animates -50% so first 4 loop into next 4 seamlessly -->
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+      <span class="marquee-item">"Executing with precision. Delivering on your visions."</span>
+      <span class="marquee-sep">·</span>
+    </div>
+  </div>
+
+  <!-- WORK / TABLE OF CONTENTS -->
+  <section class="section" id="work">
+    <div class="work-header">
+      <div class="section-label" style="margin-bottom:0;">[ Work ]</div>
+      <div class="work-count">5 Categories</div>
+    </div>
+
+    <div class="toc">
+
+      <a href="pages/graphic-digital-design.html" class="toc-row">
+        <div class="toc-row-bg"></div>
+        <span class="toc-num">01</span>
+        <span class="toc-name">Graphic &amp; Digital Design</span>
+        <span class="toc-tags">Print · Campaigns · Digital · Posters</span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a href="pages/photo-retouching.html" class="toc-row">
+        <div class="toc-row-bg"></div>
+        <span class="toc-num">02</span>
+        <span class="toc-name">Photo &amp; Retouching</span>
+        <span class="toc-tags">Composite · Manipulation · Beauty</span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a href="pages/brand-identity.html" class="toc-row">
+        <div class="toc-row-bg"></div>
+        <span class="toc-num">03</span>
+        <span class="toc-name">Brand Identity</span>
+        <span class="toc-tags">Identity · Systems · Strategy</span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a href="pages/traditional-art.html" class="toc-row">
+        <div class="toc-row-bg"></div>
+        <span class="toc-num">04</span>
+        <span class="toc-name">Traditional Art</span>
+        <span class="toc-tags">Drawing · Painting · Mixed</span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a href="pages/digital-art.html" class="toc-row">
+        <div class="toc-row-bg"></div>
+        <span class="toc-num">05</span>
+        <span class="toc-name">Digital Art</span>
+        <span class="toc-tags">Illustration · Digital Painting</span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <img src="brand_assets/web_icon_w.png" alt="Musa Studios Co" class="footer-logo">
+    <div class="footer-copy">© 2026 Musa Studios Co · All Rights Reserved</div>
+  </footer>
+
+</body>
+</html>

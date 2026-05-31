@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graphic &amp; Digital Design — Musa Studios Co</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* ── Uniform 5-column poster grid ── */
+    .poster-uniform-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+    }
+
+    .poster-img-wrap { position: relative; overflow: hidden; }
+
+    .poster-view-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10,6,6,0.52);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .poster-card:hover .poster-view-hint { opacity: 1; }
+
+    /* ── Modal overlay ── */
+    .pd-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(10,6,6,0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 32px;
+    }
+
+    .pd-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .pd-modal {
+      width: 100%;
+      max-width: 1080px;
+      height: 88vh;
+      max-height: 840px;
+      background: #0A0606;
+      border: 1px solid rgba(255,248,233,0.09);
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      overflow: hidden;
+      transform: translateY(22px) scale(0.98);
+      transition: transform 0.38s cubic-bezier(0.22,1,0.36,1);
+      position: relative;
+    }
+
+    .pd-overlay.is-open .pd-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    /* Left: image panel */
+    .pd-img-panel {
+      background: rgba(255,248,233,0.025);
+      border-right: 1px solid rgba(255,248,233,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .pd-img-panel img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Right: copy panel */
+    .pd-copy-panel {
+      padding: 40px 44px 40px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(175,0,0,0.3) transparent;
+    }
+
+    .pd-copy-panel::-webkit-scrollbar { width: 3px; }
+    .pd-copy-panel::-webkit-scrollbar-track { background: transparent; }
+    .pd-copy-panel::-webkit-scrollbar-thumb { background: rgba(175,0,0,0.4); }
+
+    .pd-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.45;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+
+    .pd-close:hover { opacity: 1; }
+
+    .pd-cat-tag {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .pd-title {
+      font-size: clamp(26px, 3vw, 42px);
+      font-weight: 700;
+      font-style: oblique;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      line-height: 0.88;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+
+    .pd-subtitle {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.38;
+      margin-bottom: 18px;
+    }
+
+    .pd-tagline {
+      font-size: 13px;
+      color: var(--cream);
+      opacity: 0.62;
+      font-style: italic;
+      line-height: 1.55;
+      padding-bottom: 22px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid rgba(255,248,233,0.07);
+    }
+
+    .pd-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 26px;
+    }
+
+    .pd-tag-chip {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.48;
+      border: 1px solid rgba(255,248,233,0.15);
+      padding: 3px 8px;
+    }
+
+    .pd-section-label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 10px;
+    }
+
+    .pd-body {
+      font-size: 12.5px;
+      color: var(--cream);
+      opacity: 0.65;
+      line-height: 1.78;
+      margin-bottom: 26px;
+    }
+
+    .pd-body p + p { margin-top: 12px; }
+
+    .pd-principles {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 8px;
+    }
+
+    .pd-principles li {
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,248,233,0.05);
+      font-size: 12px;
+      color: var(--cream);
+      opacity: 0.62;
+      line-height: 1.6;
+    }
+
+    .pd-principles li:last-child { border-bottom: none; }
+
+    .pd-principles li strong {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 1;
+      margin-bottom: 3px;
+    }
+
+    /* Section header */
+    .ps-section {
+      padding: 64px 48px;
+      border-bottom: 1px solid rgba(255,248,233,0.06);
+    }
+
+    .ps-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,248,233,0.06);
+    }
+
+    .ps-header-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 10px;
+    }
+
+    .ps-header-title {
+      font-size: clamp(20px, 2.4vw, 36px);
+      font-weight: 700;
+      font-style: oblique;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      color: var(--cream);
+    }
+
+    .ps-header-desc {
+      font-size: 11px;
+      color: var(--cream);
+      opacity: 0.4;
+      letter-spacing: 0.04em;
+      line-height: 1.7;
+      max-width: 280px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html">
+      <img src="../brand_assets/web_icon_w.png" alt="Musa Studios Co" class="nav-logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="cat-hero" style="position:relative; overflow:hidden;">
+    <canvas id="dotWave" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <div style="position:relative; z-index:3;">
+      <a href="../index.html" class="back-link">← Portfolio</a>
+      <div class="cat-hero-label">[ Work — 01 ]</div>
+      <h1 class="cat-hero-title">Graphic &amp;<br>Digital Design</h1>
+    </div>
+    <div class="cat-hero-foot" style="position:relative; z-index:3;">
+      <span class="cat-hero-byline">Nicolas Musa · 2024–2026</span>
+      <div class="cat-hero-sep"></div>
+      <span class="cat-hero-count">20 Projects</span>
+      <div class="cat-hero-sep"></div>
+      <span style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);opacity:0.35;">Print · Digital · Graphic</span>
+    </div>
+  </div>
+  <script>
+  (function() {
+    const canvas = document.getElementById('dotWave');
+    const VS = `#version 300 es\nprecision mediump float;\nlayout(location = 0) in vec4 a_position;\nvoid main() { gl_Position = a_position; }`;
+    const FS = `#version 300 es
+precision mediump float;
+uniform float u_time;
+uniform vec2  u_resolution;
+uniform vec4  u_colorFront;
+uniform float u_pxSize;
+out vec4 fragColor;
+const int bayer8x8[64] = int[64](
+   0, 32,  8, 40,  2, 34, 10, 42,
+  48, 16, 56, 24, 50, 18, 58, 26,
+  12, 44,  4, 36, 14, 46,  6, 38,
+  60, 28, 52, 20, 62, 30, 54, 22,
+   3, 35, 11, 43,  1, 33,  9, 41,
+  51, 19, 59, 27, 49, 17, 57, 25,
+  15, 47,  7, 39, 13, 45,  5, 37,
+  63, 31, 55, 23, 61, 29, 53, 21
+);
+float bayer(vec2 uv) {
+  ivec2 pos = ivec2(mod(uv, 8.0));
+  return float(bayer8x8[pos.y * 8 + pos.x]) / 64.0;
+}
+void main() {
+  float t   = 0.5 * u_time;
+  float px  = u_pxSize;
+  vec2  pxUv = floor(gl_FragCoord.xy / px) * px;
+  vec2  nuv  = (pxUv / u_resolution) - 0.5;
+  vec2  suv  = nuv * 4.0;
+  float wave = cos(0.5 * suv.y - 2.0 * t) * sin(1.5 * suv.y + t) * (0.75 + 0.25 * cos(3.0 * t));
+  float shape = smoothstep(-1.0, 1.0, suv.x + wave);
+  shape *= smoothstep(-0.5, 0.15, nuv.x);
+  float threshold = bayer(gl_FragCoord.xy / px);
+  float res = step(0.5, shape + (threshold - 0.5));
+  vec3  fg  = u_colorFront.rgb;
+  float opa = u_colorFront.a * res;
+  fragColor = vec4(fg * opa, opa);
+}`;
+    function hexToRgba(h){const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);return r?[parseInt(r[1],16)/255,parseInt(r[2],16)/255,parseInt(r[3],16)/255,1]:[0,0,0,1];}
+    function mkShader(gl,t,s){const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);return sh;}
+    function mkProg(gl,vs,fs){const p=gl.createProgram();gl.attachShader(p,mkShader(gl,gl.VERTEX_SHADER,vs));gl.attachShader(p,mkShader(gl,gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);return p;}
+    const gl = canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:true});
+    if(!gl) return;
+    gl.clearColor(0,0,0,0);
+    const prog = mkProg(gl,VS,FS);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+    const posLoc = gl.getAttribLocation(prog,'a_position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc,2,gl.FLOAT,false,0,0);
+    const uTime=gl.getUniformLocation(prog,'u_time'),uRes=gl.getUniformLocation(prog,'u_resolution'),uFront=gl.getUniformLocation(prog,'u_colorFront'),uPx=gl.getUniformLocation(prog,'u_pxSize');
+    const FG=hexToRgba('#AF0000'),PX=3.5,SPD=0.55,t0=performance.now();
+    function resize(){const W=canvas.offsetWidth*devicePixelRatio|0,H=canvas.offsetHeight*devicePixelRatio|0;if(canvas.width!==W||canvas.height!==H){canvas.width=W;canvas.height=H;gl.viewport(0,0,W,H);}}
+    function render(){resize();const t=(performance.now()-t0)*0.001*SPD,W=canvas.width,H=canvas.height;gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(prog);gl.uniform1f(uTime,t);gl.uniform2f(uRes,W,H);gl.uniform4fv(uFront,FG);gl.uniform1f(uPx,PX*devicePixelRatio);gl.drawArrays(gl.TRIANGLES,0,6);requestAnimationFrame(render);}
+    render();
+  })();
+  </script>
+
+  <!-- ── EVENT POSTERS ── -->
+  <div class="ps-section">
+    <div class="ps-header fade-up fade-up-1">
+      <div>
+        <div class="ps-header-label">[ 01 — Event Posters ]</div>
+        <div class="ps-header-title">Event Posters</div>
+      </div>
+      <p class="ps-header-desc">Promotional posters designed for real events within Miami's creative community.</p>
+    </div>
+
+    <div class="poster-uniform-grid">
+
+      <div class="poster-card fade-up fade-up-2" data-project="born2create">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/event-posters/Born2Create/Born2Create.png"
+               alt="Born2Create Art Basel event poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">Born2Create</div>
+            <div class="poster-subtitle">Art Basel — Dec 3</div>
+            <div class="poster-tag">Event Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-2" data-project="born2create-studio24">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/event-posters/Born2Create x Studio24/Born2Create x Studio24.jpg"
+               alt="Born2Create x Studio24 event poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">B2C × Studio24</div>
+            <div class="poster-subtitle">Aug 23 — Biscayne</div>
+            <div class="poster-tag">Event Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-3" data-project="born2create-legacy">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/event-posters/Born2Create x LEGACY/Born2Create x LEGACY.png"
+               alt="Born2Create x LEGACY event poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">B2C × LEGACY</div>
+            <div class="poster-subtitle">May 31 — NW Miami</div>
+            <div class="poster-tag">Event Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-3" data-project="dnd-halloween">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/event-posters/DND Halloween Party/DND Halloween Party.png"
+               alt="DND Halloween Party poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">DND Halloween</div>
+            <div class="poster-subtitle">Oct 31 — 21+ Event</div>
+            <div class="poster-tag">Event Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-4" data-project="musemingle">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/event-posters/MuseMingle/MuseMingle.PNG"
+               alt="MuseMingle event poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">MuseMingle</div>
+            <div class="poster-subtitle">Swim Week — May 24</div>
+            <div class="poster-tag">Event Poster</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── ARTISTIC POSTERS ── -->
+  <div class="ps-section">
+    <div class="ps-header fade-up fade-up-1">
+      <div>
+        <div class="ps-header-label">[ 02 — Artistic Posters ]</div>
+        <div class="ps-header-title">Artistic Posters</div>
+      </div>
+      <p class="ps-header-desc">Personal and exploratory poster work — no client, just craft.</p>
+    </div>
+
+    <div class="poster-uniform-grid">
+
+      <div class="poster-card fade-up fade-up-2" data-project="nostalgia">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/artistic-posters/Nostalgia/nostalgia.png"
+               alt="Nostalgia poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">Nostalgia</div>
+            <div class="poster-subtitle">Poster Practice — May</div>
+            <div class="poster-tag">Artistic Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-2" data-project="coffee">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/artistic-posters/Coffee/coffee.png"
+               alt="Coffee poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">Coffee</div>
+            <div class="poster-subtitle">Slow Down, Drink Coffee</div>
+            <div class="poster-tag">Artistic Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-3" data-project="science-of-espresso">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/artistic-posters/Science of Espresso/Science of Espresso.png"
+               alt="Science of Espresso poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">Science of Espresso</div>
+            <div class="poster-subtitle">Behind the Extraction</div>
+            <div class="poster-tag">Artistic Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-3" data-project="pearl">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/artistic-posters/Pearl/Pearl.png"
+               alt="Pearl movie poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">Pearl</div>
+            <div class="poster-subtitle">X-traordinary Origin Story</div>
+            <div class="poster-tag">Movie Poster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-card fade-up fade-up-4" data-project="scream">
+        <div class="poster-img-wrap">
+          <img src="../projects/graphic-digital-design/print-design/artistic-posters/Scream/Scream.png"
+               alt="Scream movie poster" class="poster-img">
+          <div class="poster-view-hint">View Details</div>
+        </div>
+        <div class="poster-meta">
+          <div class="poster-meta-left">
+            <div class="poster-title">Scream</div>
+            <div class="poster-subtitle">Favorite Scary Movie?</div>
+            <div class="poster-tag">Movie Poster</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── DIGITAL DESIGN ── -->
+  <div class="ps-section">
+    <div class="ps-header fade-up fade-up-1">
+      <div>
+        <div class="ps-header-label">[ 03 — Digital Design ]</div>
+        <div class="ps-header-title">Digital Design</div>
+      </div>
+      <p class="ps-header-desc">Social media campaigns, digital assets, and motion work.</p>
+    </div>
+
+    <div class="section" style="padding-top: 0;">
+      <div class="projects-grid">
+
+        <div class="project-card fade-up fade-up-1">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/AF0000/FFF8E9?text=PUMA+SOCIAL" alt="PUMA Social Campaign" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">PUMA — Social Media Campaign</div>
+              <div class="project-card-tag">Social</div>
+            </div>
+            <span class="project-year">2025</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-2">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/0A0606/FFF8E9?text=MUSA+DIGITAL" alt="Musa Studios Digital" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">Musa Studios Co — Content Strategy</div>
+              <div class="project-card-tag">Digital</div>
+            </div>
+            <span class="project-year">2025</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-2">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/D8510E/FFF8E9?text=BANNER+SERIES" alt="Banner Series" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">Banner Series — Event Promos</div>
+              <div class="project-card-tag">Digital</div>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-3">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/7A1C1C/FFF8E9?text=ANIMATED+SOCIAL" alt="Animated Social" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">Animated Social — Campaign</div>
+              <div class="project-card-tag">Motion</div>
+            </div>
+            <span class="project-year">2025</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GRAPHIC DESIGN ── -->
+  <div class="ps-section">
+    <div class="ps-header fade-up fade-up-1">
+      <div>
+        <div class="ps-header-label">[ 04 — Graphic Design ]</div>
+        <div class="ps-header-title">Graphic Design</div>
+      </div>
+      <p class="ps-header-desc">Campaigns, visual systems, and editorial work.</p>
+    </div>
+
+    <div class="section" style="padding-top: 0;">
+      <div class="projects-grid">
+
+        <div class="project-card fade-up fade-up-1">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/AF0000/FFF8E9?text=PUMA" alt="PUMA Campaign" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">PUMA — Campaign Visual</div>
+              <div class="project-card-tag">Campaign</div>
+            </div>
+            <span class="project-year">2025</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-2">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/0A0606/FFF8E9?text=DND+HALLOWEEN" alt="DND Halloween" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">DND Halloween — Event Design</div>
+              <div class="project-card-tag">Event</div>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-2">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/7A1C1C/FFF8E9?text=MUSE+MINGLE" alt="Muse Mingle" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">Muse Mingle — Miami Swim Week</div>
+              <div class="project-card-tag">Event</div>
+            </div>
+            <span class="project-year">2025</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-3">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/D8510E/FFF8E9?text=DESINDO" alt="DESINDO" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">DESINDO — Visual Campaign</div>
+              <div class="project-card-tag">Branding</div>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-3">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/0A0606/AF0000?text=FESTIVAL" alt="Festival Poster Series" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">Music Festival — Poster Series</div>
+              <div class="project-card-tag">Poster</div>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-up fade-up-4">
+          <div class="project-img-wrap">
+            <img src="https://placehold.co/800x600/FFF8E9/0A0606?text=EDITORIAL" alt="Editorial Campaign" class="project-img">
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">Editorial — Campaign Visual</div>
+              <div class="project-card-tag">Editorial</div>
+            </div>
+            <span class="project-year">2025</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <img src="../brand_assets/web_icon_w.png" alt="Musa Studios Co" class="footer-logo">
+    <div class="footer-copy">© 2026 Musa Studios Co · All Rights Reserved</div>
+  </footer>
+
+  <!-- ── MODAL ── -->
+  <div id="pd-overlay" class="pd-overlay">
+    <div class="pd-modal">
+      <button class="pd-close" id="pd-close">✕ Close</button>
+
+      <div class="pd-img-panel">
+        <img id="pd-modal-img" src="" alt="">
+      </div>
+
+      <div class="pd-copy-panel">
+        <div class="pd-cat-tag" id="pd-cat"></div>
+        <h2 class="pd-title" id="pd-title"></h2>
+        <div class="pd-subtitle" id="pd-subtitle"></div>
+        <div class="pd-tagline" id="pd-tagline"></div>
+        <div class="pd-tags" id="pd-tags"></div>
+
+        <div class="pd-section-label">Overview</div>
+        <div class="pd-body" id="pd-overview"></div>
+
+        <div class="pd-section-label">Design Process</div>
+        <div class="pd-body" id="pd-process"></div>
+
+        <div class="pd-section-label">Design Principles</div>
+        <ul class="pd-principles" id="pd-principles"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PROJECTS = {
+      'born2create': {
+        title: 'Born2Create',
+        subtitle: 'Art Basel — December 3',
+        category: 'Event Poster',
+        tagline: 'Where the creative underground comes to surface.',
+        tags: ['Community', 'Art Basel', 'Grunge', 'Editorial', 'Black & White'],
+        asset: '../projects/graphic-digital-design/print-design/event-posters/Born2Create/Born2Create.png',
+        overview: `Born2Create was conceived as a gathering place for Miami's artistic community — a space for artists, photographers, musicians, and makers to exist in the same room and find each other. The poster needed to feel like it came from that world: raw, handmade, and deliberately unpolished.`,
+        process: [
+          `The brief was the community itself. Born2Create wasn't a corporate event — it was built by and for creatives — so any design language that felt too produced or too clean would have betrayed the event's identity. I leaned into a zine-and-graffiti aesthetic as the foundation: the logotype is hand-lettered with expressive, almost aggressive brushwork, treating the name like a tag rather than a brand.`,
+          `The black-and-white treatment was a deliberate choice rooted in unification. The three featured creatives — an artist, a photographer, and a DJ — were shot in different contexts with different lighting conditions. Converting everything to high-contrast monochrome collapsed those differences and gave the poster a singular visual voice. Framing each portrait within a Polaroid border extended that intimacy — Polaroids feel personal, immediate, and real in a way that a clean headshot never could.`,
+          `Hierarchy was handled through scale and weight contrast rather than color. The "Born2Create" logotype dominates the top third; the "Art Basel" event header anchors the middle with tight, compressed serif type; and the sponsor logos, activities, and social handles occupy the bottom as a dense but scannable grid. Every typographic decision pushed against glossy event-design conventions because the event deserved a poster that looked like someone who cared made it by hand.`
+        ],
+        principles: [
+          { title: 'Visual hierarchy through contrast', desc: 'Scale and weight do the organizational work that color would typically handle.' },
+          { title: 'Authenticity over polish', desc: 'Deliberately rough edges signal community rather than commercialism.' },
+          { title: 'Typographic personality', desc: 'The hand-lettered logo carries the entire emotional tone of the poster.' },
+          { title: 'Unification through monochrome', desc: 'A strict black-and-white palette ties together disparate photographic sources.' }
+        ]
+      },
+      'born2create-studio24': {
+        title: 'Born2Create × Studio24',
+        subtitle: 'August 23 — 2700 Biscayne Blvd',
+        category: 'Event Poster',
+        tagline: 'Creative energy, coffee shop warmth.',
+        tags: ['Collaboration', 'Warm Palette', 'Illustration', 'Collage', 'Coffee Shop'],
+        asset: '../projects/graphic-digital-design/print-design/event-posters/Born2Create x Studio24/Born2Create x Studio24.jpg',
+        overview: `The second Born2Create event shifted gears — same community, different mood. Partnering with Studio24 meant leaning into a more intimate, café-culture atmosphere: casual conversations, new connections, and the kind of creative energy that happens when people actually slow down. The poster had to earn that shift.`,
+        process: [
+          `The original Born2Create poster spoke in a grunge dialect — high contrast, raw, underground. For the Studio24 collaboration, I needed to evolve the visual language without abandoning it entirely. The answer was warmth. I moved from stark black-and-white to a cream-and-red palette that immediately reads differently — approachable rather than confrontational, analog rather than editorial.`,
+          `The hand-drawn icon system was the design decision I'm proudest of here. Rather than using photography or stock assets to represent the event's activities — coffee, music, art, DJ, photography — I illustrated each one with a loose, gestural line style that sits somewhere between a sketchbook doodle and a vintage editorial illustration. This kept the poster feeling handmade and personal, and gave each activity equal visual weight.`,
+          `Typography played the tension game. The "BORN2CREATE" headline is massive and confrontational — all caps, heavy weight. The "(in collaboration with)" bridge is set in a smaller, parenthetical hand-script, creating a deliberate pause before "STUDIO" hits again in bold display type. That rhythm — loud, quiet, loud — mirrors how a good conversation flows.`
+        ],
+        principles: [
+          { title: 'Palette as mood-setter', desc: 'Swapping monochrome for cream-and-red completely redefines the event\'s emotional register.' },
+          { title: 'Illustration over photography', desc: 'Hand-drawn icons communicate authenticity and give the piece a consistent handmade voice.' },
+          { title: 'Typographic rhythm', desc: 'Alternating scale and weight creates visual pacing that mirrors human conversation.' },
+          { title: 'Collage with intention', desc: 'Torn edges and duotone portraits tie the new colorway back to the series\' established language.' }
+        ]
+      },
+      'born2create-legacy': {
+        title: 'Born2Create × LEGACY',
+        subtitle: 'May 31 — 7400 NW Miami CT',
+        category: 'Event Poster',
+        tagline: 'Creativity and discipline, sharing the same floor.',
+        tags: ['Collaboration', 'Bold Typography', 'Black & White', 'Fitness', 'Community'],
+        asset: '../projects/graphic-digital-design/print-design/event-posters/Born2Create x LEGACY/Born2Create x LEGACY.png',
+        overview: `When Born2Create partnered with LEGACY — a gym — the design challenge was real: how do you honor two communities that seem to operate in completely different registers? Artists and athletes, creative instinct and physical discipline. The answer was to find the place where those two worlds already agree: a commitment to showing up and doing the work.`,
+        process: [
+          `I made a hard typographic choice first and let everything else follow. "BORN2CREATE" at the top — all caps, maximum weight, white-on-black — wasn't chosen just for impact. It was chosen because it had to be unignorable. When you're bridging two audiences who might not naturally cross over, the headline has to arrest everyone equally.`,
+          `The LEGACY logotype presented a specific design problem I genuinely enjoyed solving. Fitting their branded pitbull mascot icon into the letter O of "LEGACY" wasn't just a clever visual device — it was a statement about how integrated these two identities were for this event. The pitbull, a symbol of tenacity and raw energy, sits at the literal center of their name.`,
+          `Between the two headlines, a halftone-treated photograph of gym equipment — rendered at high contrast until the machinery becomes almost architectural — fills the negative space with texture and energy. It's documentary without being literal; it communicates the physical world of LEGACY without feeling like a stock photo insert.`
+        ],
+        principles: [
+          { title: 'Typographic hierarchy at maximum scale', desc: 'Weight and size do all the hierarchical work in a monochrome environment.' },
+          { title: 'Negative space as texture', desc: 'Halftone photography fills without distracting, adding depth while staying subordinate to type.' },
+          { title: 'Brand integration', desc: 'Embedding LEGACY\'s mascot into the wordmark creates unity rather than just co-branding.' },
+          { title: 'Audience-aware copy', desc: 'The body copy speaks explicitly to both communities, making neither feel like an afterthought.' }
+        ]
+      },
+      'dnd-halloween': {
+        title: 'DND Halloween Party',
+        subtitle: 'October 31 — 21+ Event',
+        category: 'Event Poster',
+        tagline: 'A promotional horror show — designed to get noticed.',
+        tags: ['Halloween', 'Horror', 'Vintage', 'Collage', 'DND Musica'],
+        asset: '../projects/graphic-digital-design/print-design/event-posters/DND Halloween Party/DND Halloween Party.png',
+        overview: `DND Musica needed more than a party flyer. They were throwing a Halloween event as a vehicle to get in front of more people within the industry — which meant the poster had to do double duty: pull people in on Halloween energy, and leave an impression that outlasted October 31st. I treated it like a B-movie poster, not a nightlife ad.`,
+        process: [
+          `The vintage exploitation horror aesthetic was the obvious creative direction, but executing it without looking lazy required restraint in the right places. I started with the paper — a warm, aged, off-white base with visible texture and subtle distressing throughout. Bright or clean imagery would have broken it immediately; everything needed to feel like it had been photocopied one too many times.`,
+          `The collage methodology came from zine and cut-and-paste culture. Disembodied eyes peering in from the top, an open screaming mouth bleeding into the bottom corner, a black cat with glowing red eyes at center — these aren't random horror decorations. Each element was chosen and placed to create the feeling of being watched and surrounded. The result is an unease that creeps rather than shouts.`,
+          `Color discipline was strict: the aged paper, near-black photographic elements, and selective deep red for type and accents. The red does all the hierarchy work. The DND logo sits at the top center as if it were a studio imprint, borrowing from how film production company logos frame vintage posters — giving the piece a sense of institutional authority that contrasts darkly with the horror imagery below.`
+        ],
+        principles: [
+          { title: 'Texture as storytelling', desc: 'Aged paper and distressed elements establish the era and mood before a single word is read.' },
+          { title: 'Color reduction for impact', desc: 'A near-monochrome palette with strategic red accents makes hierarchy unmissable.' },
+          { title: 'Collage as atmosphere', desc: 'Layered horror imagery builds unease through accumulation rather than a single dramatic focal point.' },
+          { title: 'Genre fluency', desc: 'Referencing exploitation poster conventions signals craft to anyone paying attention.' }
+        ]
+      },
+      'musemingle': {
+        title: 'MuseMingle',
+        subtitle: 'Miami Swim Week — May 24',
+        category: 'Event Poster',
+        tagline: 'Reunion energy, Miami summer palette.',
+        tags: ['Retro', '70s', 'Fashion', 'Miami', 'Bold Color', 'Typography'],
+        asset: '../projects/graphic-digital-design/print-design/event-posters/MuseMingle/MuseMingle.PNG',
+        overview: `MuseMingle brought together alumni from Muse — a creative workshop for aspiring models — to reconnect and share what they'd learned since leaving. The event was hosted during Miami Swim Week, which meant the design needed to hold its own in a visual environment already saturated with sun-soaked imagery and fashion energy.`,
+        process: [
+          `The color came first. Bubblegum pink as the full-bleed background color was a decisive, committed choice — not a safe one. Pink at that saturation and field size demands confidence, but it immediately signals warmth, celebration, and femininity without relying on a single predictable swimwear cliché. It's the kind of color that commands attention at the size a flyer gets printed.`,
+          `The typographic system is a deliberate tension between two extremes. "MUSE" is set in a massive, heavy sans-serif display face — loud, architectural, almost confrontational in its scale — while "Mingle" drops in below it in a flowing, elegant script. That pairing is the design's central argument: the workshop is rigorous and serious (MUSE), but the reunion is loose and joyful (Mingle).`,
+          `The sticker-style callouts for the address, date, and time are a deliberate informality — they read like someone pressed a label onto a mood board. The background photography — a sun-drenched poolside image — bleeds naturally from below the typographic section, grounding the aspirational type in a real, physical moment.`
+        ],
+        principles: [
+          { title: 'Color as personality', desc: 'Bubblegum pink isn\'t a background; it\'s a brand statement that sets the entire emotional register.' },
+          { title: 'Typographic tension', desc: 'Pairing a heavy display sans with a flowing script creates a dual identity that mirrors the event itself.' },
+          { title: 'Sticker-style hierarchy', desc: 'Informal callout shapes keep event logistics from feeling bureaucratic.' },
+          { title: 'Photography as atmosphere', desc: 'The poolside image grounds the poster in physical reality without competing with the typographic system above.' }
+        ]
+      },
+      'nostalgia': {
+        title: 'Nostalgia',
+        subtitle: 'Poster Practice — May Issue',
+        category: 'Artistic Poster',
+        tagline: 'A visual letter to the person you used to be.',
+        tags: ['Personal', 'Photography', 'Typography', 'Texture', 'Editorial'],
+        asset: '../projects/graphic-digital-design/print-design/artistic-posters/Nostalgia/nostalgia.png',
+        overview: `This poster began as a personal exploration — no brief, no client, just a question: what does nostalgia actually look like when you refuse to make it pretty? The result is a piece about memory, growth, and the strange tenderness of looking back at who you were before you became who you are.`,
+        process: [
+          `The image is the argument. A child running down a dirt road — carefree, mid-stride, moving toward something or away from something, it's impossible to tell which — is the most direct representation of the concept. But presenting that image cleanly felt dishonest. Memory doesn't work like that. Pixelating the child's face was the design decision that unlocked everything else. It creates presence without identity — you know someone is there, but you can't quite reach them. That's exactly how memory feels.`,
+          `The typographic layer came from thinking about how repetition works in the mind. When a thought or feeling is significant enough, it loops. It replays. The quote — "May you become the person your past self needed" — repeats across the entire image field as a watermark, rendered in a bold white condensed sans that's dense enough to read as texture from a distance and as language up close.`,
+          `The film grain treatment was non-negotiable. Grain doesn't just add texture — it places the image in time. It signals that this was captured, that it existed, that the moment was real even if it now feels remote. The combination of grain, pixelation, and typographic overlay builds three layers of distance between the viewer and the subject.`
+        ],
+        principles: [
+          { title: 'Layered meaning', desc: 'The piece communicates differently at distance versus up close, rewarding attention.' },
+          { title: 'Deliberate degradation', desc: 'Pixelation and grain are expressive choices, not limitations; they carry the emotional weight of imperfect memory.' },
+          { title: 'Typography as texture', desc: 'The repeated quote operates simultaneously as a design element and as the poster\'s emotional core.' },
+          { title: 'Restraint in composition', desc: 'No competing graphic elements; the image is given full authority.' }
+        ]
+      },
+      'coffee': {
+        title: 'Coffee',
+        subtitle: 'Slow Down, Drink Coffee',
+        category: 'Artistic Poster',
+        tagline: 'A daily ritual, elevated to a design statement.',
+        tags: ['Illustration', 'Editorial', 'Minimal', 'Single Color', 'Typography'],
+        asset: '../projects/graphic-digital-design/print-design/artistic-posters/Coffee/coffee.png',
+        overview: `The concept was simple: make something people would actually want to hang on their wall. Not a coffee brand campaign, not an advertisement — a poster that celebrates the quiet ritual of making coffee without overselling it. The constraint I gave myself was a single color, a single illustration, and a headline that functions as both a command and a permission slip.`,
+        process: [
+          `Designing with a single color forces a kind of discipline that color freedom never demands. When you remove the ability to use contrast, warmth, or saturation to guide the eye, every decision about scale, weight, and placement becomes critical. Red on white was chosen not just for its visual energy but for its emotional associations — urgency balanced with warmth, which is exactly what a morning cup of coffee is.`,
+          `The illustration is the emotional center of the piece. I drew the hands loosely — a pour in progress, the cup receiving it — with a line weight that's confident but not mechanical. The linework is gestural enough to feel human but clean enough to read at a glance.`,
+          `The typography is the system I'm most proud of. "Slow" is set in a flowing italic serif — soft, unhurried, almost languid. "Down" lands in a massive bold sans directly beside it, stopping that softness in its tracks. Then "Drink" in the same bold sans, and "Coffee™" returning to the flowing script — with a trademark symbol that applies corporate authority to a completely personal, uncapitalizable moment. That ™ is a joke and a philosophy at the same time.`
+        ],
+        principles: [
+          { title: 'Single-color discipline', desc: 'Forced reliance on scale, weight, and placement rather than chromatic contrast.' },
+          { title: 'Gestural illustration', desc: 'Loose linework communicates humanity and warmth without sacrificing legibility.' },
+          { title: 'Typographic personality through contrast', desc: 'Serif and sans-serif in direct tension create rhythm and wit.' },
+          { title: 'Humor as design element', desc: 'The ™ symbol is a conceptual choice that rewards close reading.' }
+        ]
+      },
+      'science-of-espresso': {
+        title: 'Science of Espresso',
+        subtitle: 'Behind the Extraction',
+        category: 'Artistic Poster',
+        tagline: 'Dense information, made irresistible to look at.',
+        tags: ['Information Design', 'Editorial', 'Newspaper', 'Monochrome', 'Typography'],
+        asset: '../projects/graphic-digital-design/print-design/artistic-posters/Science of Espresso/Science of Espresso.png',
+        overview: `The challenge was self-imposed and specific: take genuinely complex, technical espresso science — roast levels, grind size, pressure, temperature, extraction time — and design a poster that makes all of it not just readable, but worth looking at. The goal wasn't simplification. It was seduction.`,
+        process: [
+          `I turned to newspaper and editorial design because those traditions solved exactly this problem decades ago. The grid-based multi-column layout is a proven information architecture — it allows readers to scan before they commit, to drop in at any point, and to navigate dense content without feeling lost. Applying that structure to espresso science wasn't ironic; it was genuinely the right tool for the content.`,
+          `The oversize "ESPRESSO" masthead dominates the top, set with aggressive kerning — a typographic choice that borrows from broadsheet newspaper logotypes where the publication's name has to establish authority instantly. "Behind The Extraction" sits beside it as a subheader, immediately framing the poster's intent: this is an investigation, not a pamphlet.`,
+          `Within the columns, hierarchy is managed through a strict typographic system: bold category headers (ROAST LEVEL, GRIND SIZE, PRESSURE, etc.) function as section markers. The photography — a coffee grounds macro, a pressure gauge, a portafilter — is placed not decoratively but functionally, as visual proof of the concepts described in the text beside each image.`
+        ],
+        principles: [
+          { title: 'Editorial grid as creative structure', desc: 'Newspaper column logic applied as a genuine solution to dense information, not as pastiche.' },
+          { title: 'Typography as navigation system', desc: 'Consistent hierarchy levels let readers find their entry point without instruction.' },
+          { title: 'Photography with purpose', desc: 'Images are placed to illustrate adjacent text, not to fill space.' },
+          { title: 'Monochrome for credibility', desc: 'Stripping color signals that the content is the point, not the presentation.' }
+        ]
+      },
+      'pearl': {
+        title: 'Pearl',
+        subtitle: 'An X-traordinary Origin Story',
+        category: 'Movie Poster',
+        tagline: 'Period horror, reframed as vintage glamour.',
+        tags: ['Movie Poster', 'Horror', 'A24', 'Vintage', 'Monochrome', 'Collage'],
+        asset: '../projects/graphic-digital-design/print-design/artistic-posters/Pearl/Pearl.png',
+        overview: `Ti West's Pearl is a film about a woman trapped between the life she has and the life she imagines for herself — told through the visual language of 1950s Technicolor but with the soul of a slasher. Designing a poster for it meant honoring both halves of that identity: the lush, romantic surface and the violence beneath it.`,
+        process: [
+          `The central compositional choice was the most important one: Mia Goth in full, standing center frame, in the red dress, holding the axe. The figure is quiet — her gaze downward, expression thoughtful rather than threatening — which makes the axe more disturbing, not less. I wanted the viewer to spend time with her before they noticed what she's holding.`,
+          `The red dress in isolation is the only color in the piece. Everything else — the background, the panel photographs, the typography — runs in high-contrast black and white. Red is Pearl's color in the film: it's ambition, desire, and blood. Isolating it against monochrome forces the eye there and then won't let it go. It also solves the problem of making a horror poster feel glamorous.`,
+          `The panel layout on the right side borrows directly from classic Hollywood lobby card design — multiple rectangular film stills, stacked vertically, giving the viewer a secondary narrative. Rather than showing the most violent moments from the film, I selected images that show Pearl's range of emotion: the manic smile, the vulnerable gesture, the calculating stillness.`
+        ],
+        principles: [
+          { title: 'Selective color for impact', desc: 'A single color element in a monochrome composition commands disproportionate visual authority.' },
+          { title: 'Compositional restraint', desc: 'The central figure\'s quiet pose makes the weapon more unsettling than any action shot would.' },
+          { title: 'Historical typography fluency', desc: 'Period-accurate type conventions make the poster feel native to the genre, not imitative.' },
+          { title: 'Panel layout as narrative', desc: 'Secondary images are chosen for emotional range rather than spectacle.' }
+        ]
+      },
+      'scream': {
+        title: 'Scream',
+        subtitle: 'What\'s your favorite scary movie?',
+        category: 'Movie Poster',
+        tagline: 'A horror poster that knows what it is.',
+        tags: ['Movie Poster', 'Horror', 'Vintage', 'Halftone', 'Collage', 'Exploitation'],
+        asset: '../projects/graphic-digital-design/print-design/artistic-posters/Scream/Scream.png',
+        overview: `Scream is a film that deconstructs the horror genre from the inside — it knows the rules, explains them out loud, and then breaks them anyway. Designing a poster for it demanded the same self-awareness: a piece that operates fully within vintage horror poster conventions while making those conventions feel fresh through the specificity of its execution.`,
+        process: [
+          `The aesthetic decision was exploitation cinema. Not a clean, modernized horror-adjacent design, but something that genuinely looks like it could have been printed on newsprint in 1996 and stapled to a telephone pole. Every element — the halftone photography, the distressed paper base, the blood-drip title treatment — exists to serve that reference without becoming parody.`,
+          `"SCREAM" at the top is the anchor. Set in a massive condensed serif with visible bleed and grain, blood-red, treated as if the letters themselves are bleeding. Directly below, the film's signature question — "What's your favorite scary movie?" — is set in a clean sans, creating a tonal whiplash between the visual violence above and the conversational register of the tagline. That's the film in two lines.`,
+          `The three-panel strip below functions as both a horror film convention and a design solution. Three moments from the film — presented in equal rectangular frames that read like film negatives — with a bloody knife laid across the dividing line. The billing block at the bottom is typeset with genuine attention to how vintage film credits were laid out — details most people would never consciously notice, but that collectively make the piece feel earned rather than assembled.`
+        ],
+        principles: [
+          { title: 'Genre fluency as foundation', desc: 'Deep familiarity with exploitation and vintage horror poster conventions makes subversion possible.' },
+          { title: 'Halftone as expressive medium', desc: 'The dot-screen treatment isn\'t a filter; it defines the entire tonal register of the piece.' },
+          { title: 'Tonal contrast in copy', desc: 'The tagline\'s conversational tone creates deliberate dissonance against the violent visual language.' },
+          { title: 'Detail as credibility', desc: 'Accurate billing block formatting and period-correct type choices signal craft rather than costume.' }
+        ]
+      }
+    };
+
+    const overlay = document.getElementById('pd-overlay');
+    const closeBtn = document.getElementById('pd-close');
+
+    function openModal(projectId) {
+      const p = PROJECTS[projectId];
+      if (!p) return;
+
+      document.getElementById('pd-modal-img').src = p.asset;
+      document.getElementById('pd-modal-img').alt = p.title;
+      document.getElementById('pd-cat').textContent = p.category;
+      document.getElementById('pd-title').textContent = p.title;
+      document.getElementById('pd-subtitle').textContent = p.subtitle;
+      document.getElementById('pd-tagline').textContent = p.tagline;
+
+      document.getElementById('pd-tags').innerHTML =
+        p.tags.map(t => `<span class="pd-tag-chip">${t}</span>`).join('');
+
+      document.getElementById('pd-overview').innerHTML =
+        `<p>${p.overview}</p>`;
+
+      document.getElementById('pd-process').innerHTML =
+        p.process.map(para => `<p>${para}</p>`).join('');
+
+      document.getElementById('pd-principles').innerHTML =
+        p.principles.map(pr => `
+          <li><strong>${pr.title}</strong>${pr.desc}</li>
+        `).join('');
+
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+
+      /* reset scroll */
+      document.querySelector('.pd-copy-panel').scrollTop = 0;
+    }
+
+    function closeModal() {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    /* click handlers on cards */
+    document.querySelectorAll('[data-project]').forEach(card => {
+      card.addEventListener('click', () => openModal(card.dataset.project));
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+</body>
+</html>

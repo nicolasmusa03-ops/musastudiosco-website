@@ -328,7 +328,7 @@
     <div class="cat-hero-foot" style="position:relative; z-index:3;">
       <span class="cat-hero-byline">Nicolas Musa · 2024–2026</span>
       <div class="cat-hero-sep"></div>
-      <span class="cat-hero-count">20 Projects</span>
+      <span class="cat-hero-count">21 Projects</span>
       <div class="cat-hero-sep"></div>
       <span style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);opacity:0.35;">Print · Digital · Graphic</span>
     </div>
@@ -683,16 +683,18 @@ void main() {
     <div class="section" style="padding-top: 0;">
       <div class="projects-grid">
 
-        <div class="project-card fade-up fade-up-1">
-          <div class="project-img-wrap">
-            <img src="https://placehold.co/800x600/AF0000/FFF8E9?text=PUMA" alt="PUMA Campaign" class="project-img">
+        <div class="poster-card fade-up fade-up-1" data-project="puma-yearbook">
+          <div class="poster-img-wrap">
+            <img src="../projects/graphic-digital-design/graphic-design/Puma/PUMAyearbook.png"
+                 alt="Puma Yearbook Graphic" class="poster-img" loading="lazy">
+            <div class="poster-view-hint">View Details</div>
           </div>
-          <div class="project-meta">
-            <div>
-              <div class="project-title">PUMA — Campaign Visual</div>
-              <div class="project-card-tag">Campaign</div>
+          <div class="poster-meta">
+            <div class="poster-meta-left">
+              <div class="poster-title">Puma Yearbook</div>
+              <div class="poster-subtitle">Puma × Jose Musa</div>
+              <div class="poster-tag">Graphic Design</div>
             </div>
-            <span class="project-year">2025</span>
           </div>
         </div>
 
@@ -981,6 +983,24 @@ void main() {
           { title: 'Compositional restraint', desc: 'The central figure\'s quiet pose makes the weapon more unsettling than any action shot would.' },
           { title: 'Historical typography fluency', desc: 'Period-accurate type conventions make the poster feel native to the genre, not imitative.' },
           { title: 'Panel layout as narrative', desc: 'Secondary images are chosen for emotional range rather than spectacle.' }
+        ]
+      },
+      'puma-yearbook': {
+        title: 'Puma Yearbook',
+        subtitle: 'Puma × Jose Musa — 2024',
+        category: 'Graphic Design',
+        tagline: 'What if Puma sponsored your senior year?',
+        tags: ['Collaboration', 'Brand', 'Photography', 'Annotation', 'Fun'],
+        asset: '../projects/graphic-digital-design/graphic-design/Puma/PUMAyearbook.png',
+        overview: `A collaborative graphic with Miami photographer Jose Musa imagining what it would look like if Puma sponsored a high school yearbook — candid portraits, sneakers held up like trophies, and all the chaotic energy of a spread that was never supposed to take itself seriously.`,
+        process: [
+          `The grid layout does the heavy lifting: twelve portraits arranged in three tight rows, each photo treated as its own panel but unified by the hand-scrawled annotations layered over them. The doodles — smiley faces, lightning bolts, shout-outs — borrow directly from the language of actual yearbook defacement, giving the branded imagery a texture that feels genuinely personal rather than manufactured. The restrained light blue background keeps the composition grounded without competing with the noise above it.`,
+          `Typography lands exactly where it needs to: the Puma wordmark anchored at the bottom acts as the punchline, the moment you clock that this is a brand piece. The contrast between the polished logo and the deliberately rough handwriting above it is the whole joke — and the whole point.`
+        ],
+        principles: [
+          { title: 'Grid as structure, chaos as texture', desc: 'A tight portrait grid provides the order that makes the scrawled annotations feel earned rather than messy.' },
+          { title: 'Brand contrast as concept', desc: 'The Puma logo\'s polish lands harder because everything above it is deliberately rough.' },
+          { title: 'Annotation as personality', desc: 'Hand-drawn doodles pull the imagery out of campaign-speak and into something that feels genuinely human.' }
         ]
       },
       'scream': {

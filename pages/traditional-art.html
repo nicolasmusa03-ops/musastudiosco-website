@@ -129,7 +129,9 @@ void main() {
           Every piece in this series starts from the same premise: a familiar face, rendered so precisely it stops feeling like a drawing. Subjects were chosen for their cultural visibility, then reimagined through graphite and selective injections of color — amber circles, cobalt rectangles, red triangles — that reframe the figure without touching it. Anatomical likeness was the floor, not the ceiling. Composition and editorial restraint were the real discipline.
         </p>
         <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
+          <button id="celeb-prev" onclick="celebGo(celebCur-1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s,opacity 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8592;</button>
           <div id="celeb-dots" style="display:flex; gap: 8px;"></div>
+          <button id="celeb-next" onclick="celebGo(celebCur+1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s,opacity 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8594;</button>
           <span class="project-year" style="margin-left: auto;">2020–Present</span>
         </div>
       </div>
@@ -155,34 +157,34 @@ void main() {
   </div>
 
   <script>
+  var celebCur = 0;
   (function() {
     const track = document.getElementById('celeb-track');
     const dotsEl = document.getElementById('celeb-dots');
     const imgs = track.querySelectorAll('img');
     const n = imgs.length;
-    let cur = 0;
-
     const dots = [];
+
     for (let i = 0; i < n; i++) {
       const d = document.createElement('button');
       d.style.cssText = 'width:6px;height:6px;border-radius:50%;border:none;cursor:pointer;padding:0;transition:all 0.3s;background:rgba(255,248,233,0.3);';
-      d.addEventListener('click', () => go(i));
+      d.addEventListener('click', () => celebGo(i));
       dotsEl.appendChild(d);
       dots.push(d);
     }
 
-    function go(idx) {
-      cur = idx;
-      track.style.transform = `translateX(-${cur * 100}%)`;
+    window.celebGo = function(idx) {
+      celebCur = (idx + n) % n;
+      track.style.transform = `translateX(-${celebCur * 100}%)`;
       dots.forEach((d, i) => {
-        d.style.background = i === cur ? 'rgba(255,248,233,0.9)' : 'rgba(255,248,233,0.3)';
-        d.style.width = i === cur ? '18px' : '6px';
+        d.style.background = i === celebCur ? 'rgba(255,248,233,0.9)' : 'rgba(255,248,233,0.3)';
+        d.style.width = i === celebCur ? '18px' : '6px';
         d.style.borderRadius = '4px';
       });
-    }
+    };
 
-    go(0);
-    setInterval(() => go((cur + 1) % n), 3200);
+    celebGo(0);
+    setInterval(() => celebGo(celebCur + 1), 3200);
   })();
   </script>
 
@@ -196,7 +198,6 @@ void main() {
           <img src="../projects/traditional-art/Commissions/family_portrait.jpg" alt="Family Portrait Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
           <img src="../projects/traditional-art/Commissions/IMG_1159.JPG"         alt="DESNUDO Magazine Cover Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
         </div>
-        <div id="comm-dots" style="position:absolute; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:8px;"></div>
       </div>
 
       <!-- Copy -->
@@ -206,41 +207,46 @@ void main() {
         <p style="font-size: 0.88rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72; max-width: 38ch;">
           Commission work is a different discipline — the measure of success is the client's vision, not the artist's. A full family portrait and a conceptual DESNUDO magazine cover: two briefs, two distinct languages, the same commitment to precision. What commissions demand that personal work doesn't is craft without ego.
         </p>
-        <span class="project-year" style="display:block; margin-top: 24px;">2020–Present</span>
+        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
+          <button onclick="commGo(commCur-1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8592;</button>
+          <div id="comm-dots" style="display:flex; gap: 8px;"></div>
+          <button onclick="commGo(commCur+1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8594;</button>
+          <span class="project-year" style="margin-left: auto;">2020–Present</span>
+        </div>
       </div>
 
     </div>
   </div>
 
   <script>
+  var commCur = 0;
   (function() {
     const track = document.getElementById('comm-track');
     const dotsEl = document.getElementById('comm-dots');
     const imgs = track.querySelectorAll('img');
     const n = imgs.length;
-    let cur = 0;
-
     const dots = [];
+
     for (let i = 0; i < n; i++) {
       const d = document.createElement('button');
-      d.style.cssText = 'width:6px;height:6px;border-radius:50%;border:none;cursor:pointer;padding:0;transition:all 0.3s;background:rgba(255,248,233,0.4);';
-      d.addEventListener('click', () => go(i));
+      d.style.cssText = 'width:6px;height:6px;border-radius:50%;border:none;cursor:pointer;padding:0;transition:all 0.3s;background:rgba(255,248,233,0.3);';
+      d.addEventListener('click', () => commGo(i));
       dotsEl.appendChild(d);
       dots.push(d);
     }
 
-    function go(idx) {
-      cur = idx;
-      track.style.transform = `translateX(-${cur * 100}%)`;
+    window.commGo = function(idx) {
+      commCur = (idx + n) % n;
+      track.style.transform = `translateX(-${commCur * 100}%)`;
       dots.forEach((d, i) => {
-        d.style.background = i === cur ? 'rgba(255,248,233,0.95)' : 'rgba(255,248,233,0.4)';
-        d.style.width = i === cur ? '18px' : '6px';
+        d.style.background = i === commCur ? 'rgba(255,248,233,0.9)' : 'rgba(255,248,233,0.3)';
+        d.style.width = i === commCur ? '18px' : '6px';
         d.style.borderRadius = '4px';
       });
-    }
+    };
 
-    go(0);
-    setInterval(() => go((cur + 1) % n), 4000);
+    commGo(0);
+    setInterval(() => commGo(commCur + 1), 4000);
   })();
   </script>
 

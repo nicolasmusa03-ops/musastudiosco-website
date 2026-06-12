@@ -97,37 +97,57 @@ void main() {
   })();
   </script>
 
+  <!-- ── Lightbox ─────────────────────────────────────────────────────── -->
+  <div id="lightbox" onclick="closeLightbox()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out;">
+    <button onclick="event.stopPropagation(); closeLightbox();" style="position:absolute; top:24px; right:32px; background:none; border:none; color:#FFF8E9; font-size:28px; cursor:pointer; opacity:0.7; line-height:1;">✕</button>
+    <img id="lightbox-img" src="" alt="" style="max-width:92vw; max-height:92vh; object-fit:contain; display:block;">
+  </div>
+
+  <script>
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = src;
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+
   <!-- ── Celebrity Portraits ─────────────────────────────────────────── -->
-  <div class="section fade-up fade-up-1" style="padding-top: 80px; padding-bottom: 80px;">
-    <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap: 64px; align-items: center;">
+  <div class="section fade-up fade-up-1" style="padding-top: 64px; padding-bottom: 64px;">
+    <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap: 56px; align-items: center;">
 
       <!-- Copy column -->
       <div>
-        <div class="project-card-tag" style="margin-bottom: 12px;">Graphite &amp; Colored Pencil · 2020–Present</div>
-        <div class="project-title" style="font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.15; margin-bottom: 24px;">Hyper-realistic<br>Portrait Art</div>
-        <p style="font-size: 0.93rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72; max-width: 38ch;">
+        <div class="project-card-tag" style="margin-bottom: 12px; opacity:1;">Graphite &amp; Colored Pencil · 2020–Present</div>
+        <div class="project-title" style="font-size: clamp(1.3rem, 2.6vw, 2.1rem); line-height: 1.15; margin-bottom: 20px;">Hyper-realistic<br>Portrait Art</div>
+        <p style="font-size: 0.88rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72; max-width: 38ch;">
           Every piece in this series starts from the same premise: a familiar face, rendered so precisely it stops feeling like a drawing. Subjects were chosen for their cultural visibility, then reimagined through graphite and selective injections of color — amber circles, cobalt rectangles, red triangles — that reframe the figure without touching it. Anatomical likeness was the floor, not the ceiling. Composition and editorial restraint were the real discipline.
         </p>
-        <div style="margin-top: 32px; display: flex; align-items: center; gap: 16px;">
+        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
           <div id="celeb-dots" style="display:flex; gap: 8px;"></div>
           <span class="project-year" style="margin-left: auto;">2020–Present</span>
         </div>
       </div>
 
       <!-- Carousel column -->
-      <div style="position: relative; overflow: hidden; border-radius: 4px; aspect-ratio: 3/4; background: #111;">
+      <div style="position: relative; overflow: hidden; border-radius: 4px; height: min(52vh, 460px); background: #0e0e0e;">
         <div id="celeb-track" style="display:flex; height:100%; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);">
-          <img src="../projects/traditional-art/Celebrity Portraits/IMG_8269.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/0FBE4299-B702-4A80-95BF-41DAB70D6D9B.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/1F70F807-DC20-4424-A9DB-468B553924C7.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/0E79758F-7614-4216-9BC1-F33BE0CA28B8.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/IMG_5794.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/Screenshot 2026-06-12 at 6.17.52 PM.png" alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/767534C4-FE3B-47B3-8376-3A377E1D936E.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/7FEA6853-33D1-41BE-AF8B-38A2D46B207F.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/IMG_7576.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/IMG_7954.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Celebrity Portraits/CBBF1A80-AF17-4CA5-BC3B-A68FD2BEB07B.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
+          <img src="../projects/traditional-art/Celebrity Portraits/IMG_8269.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/0FBE4299-B702-4A80-95BF-41DAB70D6D9B.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/1F70F807-DC20-4424-A9DB-468B553924C7.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/0E79758F-7614-4216-9BC1-F33BE0CA28B8.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/IMG_5794.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/Screenshot 2026-06-12 at 6.17.52 PM.png" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/767534C4-FE3B-47B3-8376-3A377E1D936E.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/7FEA6853-33D1-41BE-AF8B-38A2D46B207F.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/IMG_7576.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/IMG_7954.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Celebrity Portraits/CBBF1A80-AF17-4CA5-BC3B-A68FD2BEB07B.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
         </div>
       </div>
 
@@ -142,7 +162,6 @@ void main() {
     const n = imgs.length;
     let cur = 0;
 
-    // Build dots
     const dots = [];
     for (let i = 0; i < n; i++) {
       const d = document.createElement('button');
@@ -168,26 +187,26 @@ void main() {
   </script>
 
   <!-- ── Commissions ───────────────────────────────────────────────────── -->
-  <div class="section fade-up fade-up-2" style="padding-top: 0; padding-bottom: 96px;">
-    <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 64px; align-items: center;">
+  <div class="section fade-up fade-up-2" style="padding-top: 0; padding-bottom: 80px;">
+    <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 56px; align-items: center;">
 
       <!-- Carousel -->
-      <div style="position:relative; overflow:hidden; border-radius: 4px; aspect-ratio: 4/3; background: #111;">
+      <div style="position:relative; border-radius: 4px; height: min(48vh, 420px); background: #0e0e0e; overflow:hidden;">
         <div id="comm-track" style="display:flex; height:100%; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);">
-          <img src="../projects/traditional-art/Commissions/family_portrait.jpg" alt="Family Portrait Commission" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
-          <img src="../projects/traditional-art/Commissions/IMG_1159.JPG"         alt="DESNUDO Magazine Cover Commission" style="min-width:100%; height:100%; object-fit:cover; flex-shrink:0;">
+          <img src="../projects/traditional-art/Commissions/family_portrait.jpg" alt="Family Portrait Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Commissions/IMG_1159.JPG"         alt="DESNUDO Magazine Cover Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
         </div>
-        <div id="comm-dots" style="position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:8px;"></div>
+        <div id="comm-dots" style="position:absolute; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:8px;"></div>
       </div>
 
       <!-- Copy -->
       <div>
-        <div class="project-card-tag" style="margin-bottom: 12px;">Commission Work · 2020–Present</div>
-        <div class="project-title" style="font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.15; margin-bottom: 24px;">Commissions</div>
-        <p style="font-size: 0.93rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72; max-width: 38ch;">
+        <div class="project-card-tag" style="margin-bottom: 12px; opacity:1;">Commission Work · 2020–Present</div>
+        <div class="project-title" style="font-size: clamp(1.3rem, 2.6vw, 2.1rem); line-height: 1.15; margin-bottom: 20px;">Commissions</div>
+        <p style="font-size: 0.88rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72; max-width: 38ch;">
           Commission work is a different discipline — the measure of success is the client's vision, not the artist's. A full family portrait and a conceptual DESNUDO magazine cover: two briefs, two distinct languages, the same commitment to precision. What commissions demand that personal work doesn't is craft without ego.
         </p>
-        <span class="project-year" style="display:block; margin-top: 28px;">2020–Present</span>
+        <span class="project-year" style="display:block; margin-top: 24px;">2020–Present</span>
       </div>
 
     </div>

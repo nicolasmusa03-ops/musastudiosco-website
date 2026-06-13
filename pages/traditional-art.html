@@ -117,26 +117,23 @@ void main() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
   </script>
 
-  <!-- ── Celebrity Portraits ─────────────────────────────────────────── -->
-  <div class="section fade-up fade-up-1" style="padding-top: 64px; padding-bottom: 64px;">
-    <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap: 56px; align-items: center;">
+  <!-- ── Projects: two-column, row-aligned grid ─────────────────────── -->
+  <div class="section fade-up fade-up-1" style="padding-top: 64px; padding-bottom: 80px;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; column-gap: 56px; row-gap: 0; align-items: start;">
 
-      <!-- Copy column -->
-      <div>
-        <div class="project-card-tag" style="margin-bottom: 12px; opacity:1;">Graphite &amp; Colored Pencil · 2020–Present</div>
-        <div class="project-title" style="font-size: clamp(1.3rem, 2.6vw, 2.1rem); line-height: 1.15; margin-bottom: 20px;">Hyper-realistic<br>Portrait Art</div>
-        <p style="font-size: 0.88rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72; max-width: 38ch;">
-          Every piece in this series starts from the same premise: a familiar face, rendered so precisely it stops feeling like a drawing. Subjects were chosen for their cultural visibility, then reimagined through graphite and selective injections of color — amber circles, cobalt rectangles, red triangles — that reframe the figure without touching it. Anatomical likeness was the floor, not the ceiling. Composition and editorial restraint were the real discipline.
-        </p>
-        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
-          <button id="celeb-prev" onclick="celebGo(celebCur-1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s,opacity 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8592;</button>
-          <div id="celeb-dots" style="display:flex; gap: 8px;"></div>
-          <button id="celeb-next" onclick="celebGo(celebCur+1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s,opacity 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8594;</button>
-          <span class="project-year" style="margin-left: auto;">2020–Present</span>
-        </div>
+      <!-- ROW 1: Tags -->
+      <div style="margin-bottom: 12px;">
+        <div class="project-card-tag" style="opacity:1;">Graphite &amp; Colored Pencil · 2020–Present</div>
+      </div>
+      <div style="margin-bottom: 12px;">
+        <div class="project-card-tag" style="opacity:1;">Commission Work · 2020–Present</div>
       </div>
 
-      <!-- Carousel column -->
+      <!-- ROW 2: Titles -->
+      <div class="project-title" style="font-size: clamp(1.3rem, 2.6vw, 2.1rem); line-height: 1.15; margin-bottom: 20px;">Hyper-realistic<br>Portrait Art</div>
+      <div class="project-title" style="font-size: clamp(1.3rem, 2.6vw, 2.1rem); line-height: 1.15; margin-bottom: 20px;">Commissions</div>
+
+      <!-- ROW 3: Carousels -->
       <div style="position: relative; overflow: hidden; border-radius: 4px; height: min(52vh, 460px); background: #0A0606;">
         <div id="celeb-track" style="display:flex; height:100%; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);">
           <img src="../projects/traditional-art/Celebrity Portraits/IMG_8269.JPG"        alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
@@ -152,6 +149,34 @@ void main() {
           <img src="../projects/traditional-art/Celebrity Portraits/CBBF1A80-AF17-4CA5-BC3B-A68FD2BEB07B.JPG" alt="Portrait" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
         </div>
       </div>
+      <div style="position:relative; border-radius: 4px; height: min(52vh, 460px); background: #0A0606; overflow:hidden;">
+        <div id="comm-track" style="display:flex; height:100%; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);">
+          <img src="../projects/traditional-art/Commissions/family_portrait.jpg" alt="Family Portrait Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+          <img src="../projects/traditional-art/Commissions/IMG_1159.JPG"         alt="DESNUDO Magazine Cover Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- ROW 4: Controls -->
+      <div style="display: flex; align-items: center; gap: 16px; margin-top: 16px; margin-bottom: 20px;">
+        <button id="celeb-prev" onclick="celebGo(celebCur-1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s,opacity 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8592;</button>
+        <div id="celeb-dots" style="display:flex; gap: 8px;"></div>
+        <button id="celeb-next" onclick="celebGo(celebCur+1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s,opacity 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8594;</button>
+        <span class="project-year" style="margin-left: auto;">2020–Present</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px; margin-top: 16px; margin-bottom: 20px;">
+        <button onclick="commGo(commCur-1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8592;</button>
+        <div id="comm-dots" style="display:flex; gap: 8px;"></div>
+        <button onclick="commGo(commCur+1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8594;</button>
+        <span class="project-year" style="margin-left: auto;">2020–Present</span>
+      </div>
+
+      <!-- ROW 5: Copy -->
+      <p style="font-size: 0.88rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72;">
+        Every piece in this series starts from the same premise: a familiar face, rendered so precisely it stops feeling like a drawing. Subjects were chosen for their cultural visibility, then reimagined through graphite and selective injections of color — amber circles, cobalt rectangles, red triangles — that reframe the figure without touching it. Anatomical likeness was the floor, not the ceiling. Composition and editorial restraint were the real discipline.
+      </p>
+      <p style="font-size: 0.88rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72;">
+        Commission work is a different discipline — the measure of success is the client's vision, not the artist's. A full family portrait and a conceptual DESNUDO magazine cover: two briefs, two distinct languages, the same commitment to precision. What commissions demand that personal work doesn't is craft without ego.
+      </p>
 
     </div>
   </div>
@@ -186,39 +211,7 @@ void main() {
     celebGo(0);
     setInterval(() => celebGo(celebCur + 1), 3200);
   })();
-  </script>
 
-  <!-- ── Commissions ───────────────────────────────────────────────────── -->
-  <div class="section fade-up fade-up-2" style="padding-top: 0; padding-bottom: 80px;">
-    <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 56px; align-items: center;">
-
-      <!-- Carousel -->
-      <div style="position:relative; border-radius: 4px; height: min(48vh, 420px); background: #0A0606; overflow:hidden;">
-        <div id="comm-track" style="display:flex; height:100%; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);">
-          <img src="../projects/traditional-art/Commissions/family_portrait.jpg" alt="Family Portrait Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
-          <img src="../projects/traditional-art/Commissions/IMG_1159.JPG"         alt="DESNUDO Magazine Cover Commission" style="min-width:100%; height:100%; object-fit:contain; flex-shrink:0; cursor:zoom-in;" onclick="openLightbox(this.src)">
-        </div>
-      </div>
-
-      <!-- Copy -->
-      <div>
-        <div class="project-card-tag" style="margin-bottom: 12px; opacity:1;">Commission Work · 2020–Present</div>
-        <div class="project-title" style="font-size: clamp(1.3rem, 2.6vw, 2.1rem); line-height: 1.15; margin-bottom: 20px;">Commissions</div>
-        <p style="font-size: 0.88rem; line-height: 1.75; color: var(--clr-fg, #FFF8E9); opacity: 0.72; max-width: 38ch;">
-          Commission work is a different discipline — the measure of success is the client's vision, not the artist's. A full family portrait and a conceptual DESNUDO magazine cover: two briefs, two distinct languages, the same commitment to precision. What commissions demand that personal work doesn't is craft without ego.
-        </p>
-        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
-          <button onclick="commGo(commCur-1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8592;</button>
-          <div id="comm-dots" style="display:flex; gap: 8px;"></div>
-          <button onclick="commGo(commCur+1)" style="background:none;border:1px solid rgba(255,248,233,0.2);color:#FFF8E9;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,248,233,0.6)'" onmouseout="this.style.borderColor='rgba(255,248,233,0.2)'">&#8594;</button>
-          <span class="project-year" style="margin-left: auto;">2020–Present</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
   var commCur = 0;
   (function() {
     const track = document.getElementById('comm-track');
